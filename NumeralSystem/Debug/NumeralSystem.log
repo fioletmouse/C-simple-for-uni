@@ -1,0 +1,6 @@
+﻿  NumeralSystem.cpp
+c:\users\nezumi\documents\visual studio 2015\projects\numeralsystem\numeralsystem\numeralsystem.cpp(97): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+c:\users\nezumi\documents\visual studio 2015\projects\numeralsystem\numeralsystem\numeralsystem.cpp(103): warning C4244: аргумент: преобразование "float" в "std::size_t", возможна потеря данных
+c:\users\nezumi\documents\visual studio 2015\projects\numeralsystem\numeralsystem\numeralsystem.cpp(100): warning C4101: buffer: неиспользованная локальная переменная
+  NumeralSystem.vcxproj -> c:\users\nezumi\documents\visual studio 2015\Projects\NumeralSystem\Debug\NumeralSystem.exe
+  NumeralSystem.vcxproj -> c:\users\nezumi\documents\visual studio 2015\Projects\NumeralSystem\Debug\NumeralSystem.pdb (Full PDB)
