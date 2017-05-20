@@ -59,7 +59,9 @@ string Mantisa(double right )
 int main()
 {
 	// поддержка русского языка в консоли
-	setlocale(LC_ALL, "Russian");
+	// если включать, то нужно вводить цифры с разделителем запятой и поменять в функции 
+	// валидации проверку с запяток на точку как некорректный символ
+	// setlocale(LC_ALL, "Russian");
 
 	// Выводим данные о программе.
 	cout << p_header << endl << endl;
@@ -68,11 +70,11 @@ int main()
 	cout << p_ask_to_enter_a_number;
 
 
-	char *temporary = new char[255];	// на время выделяется память (с запасом) под строку 
-	cin.getline(temporary, 255);		// чтение строки
-	int tdf = strlen(temporary) + 1;
+	char *t = new char[255];	// на время выделяется память (с запасом) под строку 
+	cin.getline(t, 255);		// чтение строки
+	int tdf = strlen(t) + 1;
 	char *s = new char[tdf]; // выделяется новая память под размер введённой строки	
-	strcpy_s(s, tdf, temporary); // копируется строка в новую память
+	strcpy_s(s, tdf, t); // копируется строка в новую память
 	delete[] t; // ненужная память освобождается
 
 	// блок с оповещением о проверке на валидность
@@ -92,14 +94,11 @@ int main()
 	}*/
 
 	string str(s);
-	double fff = atof(s);
+	double fff =  atof(s);
+	double ff1f = strtod(s, nullptr);
 
-	const size_t k_buffer_size = 2048;
-	char buffer[k_buffer_size];
-
-
-	cout << DecToAny1(floor(fff)) << endl << endl;
-	cout << endl << endl << "mantisa: " << Mantisa(fff - floor(fff));
+	//cout << DecToAny1(floor(fff)) << endl << endl;
+	//cout << endl << endl << "mantisa: " << Mantisa(fff - floor(fff));
 	// перевод строки
 	cout << endl;
 	// "Для продолжения нажмите любую клавишу". Паузу, чтобы консоль не закрывалась
