@@ -23,26 +23,6 @@ string DecToAny1(size_t number, const char *base_symbols = k_base_symbols) {
 	return result;
 }
 
-list<string> checkInputValue(char s_input[])
-{
-	list<string> result;
-	//char tab2[1000];
-	//strcpy_s(tab2, s_input.c_str());
-
-	char * ring = strchr(s_input, ',');
-	if (ring)
-	{
-		result.push_front("ћо€ прелесть находитс€ в " + to_string(ring - s_input + 1) + " квадратеn");
-	}
-
-	for (int i = 0; s_input[i] != '\0'; i++) {
-		if (!isdigit(s_input[i])) result.push_front("not a digit");
-	}
-
-
-	return result;
-}
-
 string Mantisa(double right )
 {
 	string bin;
@@ -54,6 +34,49 @@ string Mantisa(double right )
 		}
 	}
 	return bin;
+}
+
+void ValidateInputValue(char s_input[])
+{
+	// заголовок о начале проверки
+	cout << endl  << endl << p_check_the_value;
+
+	// поиск ошибок
+	list<string> errors = checkInputValue(s_input);
+
+	// вывод ошибок или сообщени€ о успешной проверке
+	if (errors.size() > 0)
+	{
+		cout << endl << p_validation_fail << endl;
+		for (auto c : errors)
+			cout << c << endl;
+	}
+	else
+	{
+		cout << p_validation_done;
+	}
+}
+
+list<string> checkInputValue(char s_input[])
+{
+	list<string> result;
+
+	for (int i = 0; s_input[i] != string_end; i++)
+	{
+		if (!isdigit(s_input[i]))
+		{
+			// если знак минус или плюс сто€т не на первом месте
+			bool is_sign_place_incorrect = i != 0 && (s_input[i] == negative || s_input[i] == positive);
+
+			if (s_input[i] != delimiter_e ||		// знак - не разделитель
+				is_sign_place_incorrect == true)	// знак числа не на первом месте
+			{
+				result.push_front(invalid + to_string(i + 1)); // позици€ числа начинаетс€ с 1. ≈сли нужно с 0 - убрать + 1
+			}
+		}
+	}
+
+	return result;
 }
 
 int main()
@@ -69,33 +92,20 @@ int main()
 	// запрос на ввод числа
 	cout << p_ask_to_enter_a_number;
 
+	// чтени€ введенного числа в массив символов. —начала считываем всю строку (255 символов), потом определ€ем ее 
+	// физический размер - сколько реально зан€то. создаем новый массив нового размера и копируем туда значени€.
+	char *temporary = new char[255];					// на врем€ выдел€етс€ пам€ть (с запасом) под строку 
+	cin.getline(temporary, 255);						// чтение строки
+	int new_length = strlen(temporary) + 1;
+	char *input_array = new char[new_length];			// выдел€етс€ нова€ пам€ть под размер введЄнной строки	
+	strcpy_s(input_array, new_length, temporary);		// копируетс€ строка в новую пам€ть
+	delete[] temporary;									// ненужна€ пам€ть освобождаетс€
 
-	char *t = new char[255];	// на врем€ выдел€етс€ пам€ть (с запасом) под строку 
-	cin.getline(t, 255);		// чтение строки
-	int tdf = strlen(t) + 1;
-	char *s = new char[tdf]; // выдел€етс€ нова€ пам€ть под размер введЄнной строки	
-	strcpy_s(s, tdf, t); // копируетс€ строка в новую пам€ть
-	delete[] t; // ненужна€ пам€ть освобождаетс€
+	// проверка введенного значени€ на корректность и перчать ошибок, если есть
+	ValidateInputValue(input_array);
 
-	// блок с оповещением о проверке на валидность
-	cout << endl;
-	cout << "Checking the value ... ";
-
-	/*list<string> errors = checkInputValue(s);
-	if (errors.size() > 0)
-	{
-		cout << endl << endl << "Found errors: " << endl;
-		for (auto c : errors)
-			cout << c << endl;
-	}
-	else
-	{
-		cout << "Done!";
-	}*/
-
-	string str(s);
-	double fff =  atof(s);
-	double ff1f = strtod(s, nullptr);
+	double fff =  atof(input_array);
+	double ff1f = strtod(input_array, nullptr);
 
 	//cout << DecToAny1(floor(fff)) << endl << endl;
 	//cout << endl << endl << "mantisa: " << Mantisa(fff - floor(fff));
