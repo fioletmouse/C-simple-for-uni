@@ -15,13 +15,20 @@ static const char positive = '-';
 
 // текст ошикби 
 static const char *invalid = "The invalid character is found. Position: ";
+static const char *null_input = "There is no input value";
 
 // флаг окончания строки
 static const char string_end = '\0';
 
+// отклонение разности для определения нужно ли вычислять дробную часть
+static const float difference = 0.00000001;
+
+// количество знаков после запятой в новой системе
+static const float precision = 8;
+
 // сообщения консоли
-static const char *p_header = "D.Il'in, task number 5";
 static const char *p_ask_to_enter_a_number = "Please Enter Dec Number: ";
 static const char *p_check_the_value = "Checking the value ... ";
 static const char *p_validation_fail  = "Found errors: ";
 static const char *p_validation_done = "Done!";
+static const char *p_result= "The result: ";

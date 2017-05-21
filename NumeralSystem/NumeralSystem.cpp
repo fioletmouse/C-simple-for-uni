@@ -5,61 +5,48 @@
 
 // файл с настройками
 #include "Settings.h"
-
 using namespace std;
 
 
-string DecToAny1(size_t number, const char *base_symbols = k_base_symbols) {
-
+string DecToNewSystem(size_t number, const char *base_symbols = k_base_symbols) 
+{
 	size_t a_number = number;
 	string result;
-	int string_size = 0;
-	do {
+
+	do 
+	{
 		result = base_symbols[a_number % base] + result;
 		a_number /= base;
-	} while (a_number != 0);
-
+	} 
+	while (a_number != 0);
 
 	return result;
 }
 
-string Mantisa(double right )
+string DecimalPartToNewSystem(double right)
 {
-	string bin;
-	for (int i = 0; i < 20; i++) {
+	string result;
+	for (int i = 0; i < precision; i++) 
+	{
 		right = right * base - (int)right * base;
-		bin = bin + to_string((int)right);
-		if (right == 1.0) {
-			break;
+		result = result + to_string((int)right);
+		if (right == 1.0) 
+		{
+			break; // выходим раньше окончани€ цикла если перевелось полностью
 		}
 	}
-	return bin;
-}
-
-void ValidateInputValue(char s_input[])
-{
-	// заголовок о начале проверки
-	cout << endl  << endl << p_check_the_value;
-
-	// поиск ошибок
-	list<string> errors = checkInputValue(s_input);
-
-	// вывод ошибок или сообщени€ о успешной проверке
-	if (errors.size() > 0)
-	{
-		cout << endl << p_validation_fail << endl;
-		for (auto c : errors)
-			cout << c << endl;
-	}
-	else
-	{
-		cout << p_validation_done;
-	}
+	return result;
 }
 
 list<string> checkInputValue(char s_input[])
 {
 	list<string> result;
+
+	// не введено значение
+	if (s_input[0] == string_end)
+	{
+		result.push_front(null_input);
+	}
 
 	for (int i = 0; s_input[i] != string_end; i++)
 	{
@@ -79,6 +66,55 @@ list<string> checkInputValue(char s_input[])
 	return result;
 }
 
+bool ValidateInputValue(char s_input[])
+{
+	// заголовок о начале проверки
+	cout << endl  << endl << p_check_the_value;
+
+	// поиск ошибок
+	list<string> errors = checkInputValue(s_input);
+
+	// вывод ошибок или сообщени€ о успешной проверке
+	if (errors.size() > 0)
+	{
+		cout << endl << endl << p_validation_fail << endl;
+		for (auto c : errors)
+		{
+			cout << c << endl;
+		}
+		cout << endl;
+		return false;
+	}
+	else
+	{
+		cout << p_validation_done;
+		cout << endl;
+		return true;
+	}
+}
+
+string GetNumberInNewSystem(char s_input[])
+{
+	// переводим массив в число
+	double number = atof(s_input);
+
+	// получаем целую часть
+	double main_number_part = floor(number); 
+
+	// переводим целую часть в новую систему счислени€
+	string result = DecToNewSystem(main_number_part); 
+
+	// если нужно - вычсл€ем дробную часть и сразу плюсуем в целой
+	if ((number - main_number_part) > difference) 
+	{
+		result = result + delimiter_e + DecimalPartToNewSystem(number - main_number_part);
+	}
+
+	return result;
+}
+
+
+// D.Il'in, task number 5
 int main()
 {
 	// поддержка русского €зыка в консоли
@@ -86,9 +122,6 @@ int main()
 	// валидации проверку с зап€ток на точку как некорректный символ
 	// setlocale(LC_ALL, "Russian");
 
-	// ¬ыводим данные о программе.
-	cout << p_header << endl << endl;
-	
 	// запрос на ввод числа
 	cout << p_ask_to_enter_a_number;
 
@@ -101,22 +134,23 @@ int main()
 	strcpy_s(input_array, new_length, temporary);		// копируетс€ строка в новую пам€ть
 	delete[] temporary;									// ненужна€ пам€ть освобождаетс€
 
-	// проверка введенного значени€ на корректность и перчать ошибок, если есть
-	ValidateInputValue(input_array);
+	// проверка введенного значени€ на корректность и печать ошибок, если есть
+	bool isValidInput = ValidateInputValue(input_array);
 
-	double fff =  atof(input_array);
-	double ff1f = strtod(input_array, nullptr);
+	if (isValidInput)
+	{
+		cout << p_result << GetNumberInNewSystem(input_array) << endl << endl;
+	}
+	else
+	{
+		main();
+	}
 
-	//cout << DecToAny1(floor(fff)) << endl << endl;
-	//cout << endl << endl << "mantisa: " << Mantisa(fff - floor(fff));
-	// перевод строки
-	cout << endl;
-	// "ƒл€ продолжени€ нажмите любую клавишу". ѕаузу, чтобы консоль не закрывалась
 	system("pause");
-
-	/*if (getch() == 49)
-		main();*/
 	return 0;
 }
 
 
+// сделать - отрицательные числа
+// тесты
+// вопрос на повтор дл€ обоих веток
