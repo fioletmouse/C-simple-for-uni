@@ -32,3 +32,4 @@ static const char *p_check_the_value = "Checking the value ... ";
 static const char *p_validation_fail  = "Found errors: ";
 static const char *p_validation_done = "Done!";
 static const char *p_result= "The result: ";
+static const char *p_want_to_exit = "To close program enter 'y'/'Y': ";
