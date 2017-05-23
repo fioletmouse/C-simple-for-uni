@@ -21,7 +21,7 @@ static const char *null_input = "There is no input value";
 static const char string_end = '\0';
 
 // отклонение разности для определения нужно ли вычислять дробную часть
-static const float difference = 0.00000001;
+static const double difference = 0.00000001;
 
 // количество знаков после запятой в новой системе
 static const float precision = 8;
